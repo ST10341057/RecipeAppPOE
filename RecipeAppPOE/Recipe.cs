@@ -54,8 +54,23 @@ namespace RecipeAppPOE
 
         // Method to display the recipe
         public void DisplayRecipe()
-        { 
+        {
+            Console.WriteLine("Recipe:");
+            Console.WriteLine("Ingredients:");
 
+            // Loop to display ingredients
+            for (int i = 0; i < ingredients.Length; i++)
+            {
+                Console.WriteLine($"{quantities[i]} {units[i]} of {ingredients[i]}");
+            }
+
+            Console.WriteLine("Steps:");
+
+            // Loop to display recipe steps
+            for (int i = 0; i < steps.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {steps[i]}");
+            }
         }
 
     } 
