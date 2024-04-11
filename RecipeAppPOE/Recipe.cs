@@ -73,6 +73,20 @@ namespace RecipeAppPOE
             }
         }
 
+        // Method to scale the recipe by a factor
+        public void ScaleRecipe()
+        {
+            Console.WriteLine("Enter the scaling factor (0.5 for half, 2 for double, 3 for triple): ");
+            double factor = double.Parse(Console.ReadLine());
+
+            // Loop to scale ingredient quantities
+            for (int i = 0; i < quantities.Length; i++)
+            {
+                quantities[i] *= factor;
+            }
+
+            Console.WriteLine("Recipe scaled successfully!");
+        }
     } 
     
 }
