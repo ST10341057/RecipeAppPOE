@@ -22,6 +22,7 @@ namespace RecipeAppPOE
             {
                 Console.WriteLine("Invalid input! Please enter a positive integer.");
                 return;
+            }
 
             ingredients = new string[numIngredients];
             quantities = new double[numIngredients];
