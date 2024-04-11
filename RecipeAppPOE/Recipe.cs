@@ -96,6 +96,18 @@ namespace RecipeAppPOE
             // Assuming original quantities are stored somewhere else and can be retrieved
             Console.WriteLine("Quantities reset to original values.");
         }
+
+    
+        // Method to clear all recipe data
+        public void ClearAllData()
+        {
+            ingredients = null;
+            quantities = null;
+            units = null;
+            steps = null;
+
+            Console.WriteLine("All data cleared.");
+        }
     } 
     
 }
