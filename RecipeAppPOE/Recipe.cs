@@ -69,6 +69,12 @@ namespace RecipeAppPOE
             Console.WriteLine("Recipe:");
             Console.WriteLine("Ingredients:");
 
+            if (ingredients == null || ingredients.Length == 0)
+            {
+                Console.WriteLine("No recipe details found. Please enter recipe details first.");
+                return;
+            }
+
             // Loop to display ingredients
             for (int i = 0; i < ingredients.Length; i++)
             {
@@ -76,6 +82,12 @@ namespace RecipeAppPOE
             }
 
             Console.WriteLine("Steps:");
+
+            if (steps == null || steps.Length == 0)
+            {
+                Console.WriteLine("No recipe steps found.");
+                return;
+            }
 
             // Loop to display recipe steps
             for (int i = 0; i < steps.Length; i++)
