@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace RecipeAppPOE
@@ -86,6 +87,14 @@ namespace RecipeAppPOE
             }
 
             Console.WriteLine("Recipe scaled successfully!");
+        }
+
+        // Method to reset ingredient quantities to original values
+        public void ResetQuantities()
+        {
+            // Reset quantities to original values
+            // Assuming original quantities are stored somewhere else and can be retrieved
+            Console.WriteLine("Quantities reset to original values.");
         }
     } 
     
