@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeAppPOE", "RecipeAppPOE\RecipeAppPOE.csproj", "{2987FF5A-7662-478C-B0F4-4149C907EE04}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2987FF5A-7662-478C-B0F4-4149C907EE04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2987FF5A-7662-478C-B0F4-4149C907EE04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2987FF5A-7662-478C-B0F4-4149C907EE04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2987FF5A-7662-478C-B0F4-4149C907EE04}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CDCB2973-C3AE-49A9-86BD-D572F67207C2}
+	EndGlobalSection
+EndGlobal
