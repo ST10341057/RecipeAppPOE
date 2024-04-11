@@ -51,6 +51,13 @@ namespace RecipeAppPOE
             Console.WriteLine("Recipe details entered successfully!");
         }
 
+
+        // Method to display the recipe
+        public void DisplayRecipe()
+        { 
+
+        }
+
     } 
     
 }
