@@ -13,6 +13,7 @@ namespace RecipeAppPOE
         private double[] quantities; // Array to store ingredient quantities
         private string[] units; // Array to store units of measurement
         private string[] steps; // Array to store recipe steps
+        private double[] originalQuantities; // Array to store original ingredient quantities
 
         // Method to enter recipe details
         public void EnterRecipeDetails()
