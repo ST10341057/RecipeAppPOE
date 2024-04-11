@@ -61,6 +61,9 @@ namespace RecipeAppPOE
             }
 
             Console.WriteLine("Recipe details entered successfully!");
+
+            // Store original quantities
+            originalQuantities = quantities.ToArray(); // Copy the current quantities into originalQuantities
         }
 
 
