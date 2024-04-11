@@ -18,7 +18,10 @@ namespace RecipeAppPOE
         public void EnterRecipeDetails()
         {
             Console.WriteLine("Enter the number of ingredients: ");
-            int numIngredients = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int numIngredients) || numIngredients <= 0)
+            {
+                Console.WriteLine("Invalid input! Please enter a positive integer.");
+                return;
 
             ingredients = new string[numIngredients];
             quantities = new double[numIngredients];
@@ -31,19 +34,25 @@ namespace RecipeAppPOE
                 ingredients[i] = Console.ReadLine();
 
                 Console.WriteLine($"Enter quantity of ingredient {i + 1}: ");
-                quantities[i] = double.Parse(Console.ReadLine());
+                    if (!double.TryParse(Console.ReadLine(), out quantities[i]) || quantities[i] <= 0)
+                    {
+                        Console.WriteLine("Invalid input! Please enter a positive number for quantity.");
+                        return;
+                    }
 
-                Console.WriteLine($"Enter unit of measurement for ingredient {i + 1}: ");
+                    Console.WriteLine($"Enter unit of measurement for ingredient {i + 1}: ");
                 units[i] = Console.ReadLine();
             }
 
             Console.WriteLine("Enter the number of steps: ");
-            int numSteps = int.Parse(Console.ReadLine());
+                if (!int.TryParse(Console.ReadLine(), out int numSteps) || numSteps <= 0)
+                {
+                    Console.WriteLine("Invalid input! Please enter a positive integer.");
+                    return;
+                }
 
-            steps = new string[numSteps];
-
-            // Loop to enter recipe steps
-            for (int i = 0; i < numSteps; i++)
+                // Loop to enter recipe steps
+                for (int i = 0; i < numSteps; i++)
             {
                 Console.WriteLine($"Enter step {i + 1}: ");
                 steps[i] = Console.ReadLine();

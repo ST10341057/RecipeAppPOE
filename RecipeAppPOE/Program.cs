@@ -20,7 +20,7 @@ namespace RecipeApp
                 Console.WriteLine("4. Reset Quantities");
                 Console.WriteLine("5. Clear All Data");
                 Console.WriteLine("6. Exit");
-                Console.WriteLine("Choose an option: ");
+                Console.WriteLine("\nChoose an option: ");
                 string option = Console.ReadLine();
 
                 switch (option)
