@@ -8,19 +8,26 @@ namespace RecipeApp
     {
         static void Main(string[] args)
         {
-            // Create a Recipe object and a boolean variable to control the loop
+            // Create a new Recipe object
             Recipe recipe = new Recipe();
-            bool exit = false;
 
-            while (!exit)
-            {
-                Console.WriteLine("1. Enter Recipe Details");
+            while (true)
+            {   
+                // Display menu options
+                Console.WriteLine("------------------------------------");
+                Console.WriteLine("========== Recipe App ^_^ ==========");
+                Console.WriteLine("------------------------------------");
+                
+                Console.WriteLine("\n1. Enter Recipe Details");
                 Console.WriteLine("2. Display Recipe");
                 Console.WriteLine("3. Scale Recipe");
                 Console.WriteLine("4. Reset Quantities");
                 Console.WriteLine("5. Clear All Data");
                 Console.WriteLine("6. Exit");
-                Console.WriteLine("\nChoose an option: ");
+                Console.WriteLine("-------------------");
+                Console.Write("Choose an option: ");
+                
+
                 string option = Console.ReadLine();
 
                 switch (option)
@@ -41,13 +48,12 @@ namespace RecipeApp
                         recipe.ClearAllData();
                         break;
                     case "6":
-                        exit = true;
-                        break;
+                        return; // Exit the program
                     default:
-                        Console.WriteLine("Invalid option! Please choose again.");
+                        Console.WriteLine("\nInvalid option! Please choose again.");
                         break;
                 }
             }
         }
     }
-}          
+}

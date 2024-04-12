@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
 
 namespace RecipeAppPOE
 {
@@ -18,10 +20,10 @@ namespace RecipeAppPOE
         // Method to enter recipe details
         public void EnterRecipeDetails()
         {
-            Console.WriteLine("Enter the number of ingredients: ");
+            Console.Write("Enter the number of ingredients: ");
             if (!int.TryParse(Console.ReadLine(), out int numIngredients) || numIngredients <= 0)
             {
-                Console.WriteLine("Invalid input! Please enter a positive integer.");
+                Console.WriteLine("\nInvalid input! Please enter a positive integer.");
                 return;
             }
 
@@ -32,35 +34,37 @@ namespace RecipeAppPOE
             // Loop to enter details for each ingredient
             for (int i = 0; i < numIngredients; i++)
             {
-                Console.WriteLine($"Enter name of ingredient {i + 1}: ");
+                Console.Write($"Enter name of ingredient {i + 1}: ");
                 ingredients[i] = Console.ReadLine();
 
-                Console.WriteLine($"Enter quantity of ingredient {i + 1}: ");
+                Console.Write($"Enter quantity of ingredient {i + 1}: ");
                     if (!double.TryParse(Console.ReadLine(), out quantities[i]) || quantities[i] <= 0)
                     {
-                        Console.WriteLine("Invalid input! Please enter a positive number for quantity.");
+                        Console.WriteLine("\nInvalid input! Please enter a positive number for quantity.");
                         return;
                     }
 
-                    Console.WriteLine($"Enter unit of measurement for ingredient {i + 1}: ");
+                    Console.Write($"Enter unit of measurement for ingredient {i + 1}: ");
                 units[i] = Console.ReadLine();
             }
 
-            Console.WriteLine("Enter the number of steps: ");
+            Console.Write("Enter the number of steps: ");
                 if (!int.TryParse(Console.ReadLine(), out int numSteps) || numSteps <= 0)
                 {
-                    Console.WriteLine("Invalid input! Please enter a positive integer.");
+                    Console.WriteLine("\nInvalid input! Please enter a positive integer.");
                     return;
                 }
 
+                steps = new string[numSteps];
+
                 // Loop to enter recipe steps
                 for (int i = 0; i < numSteps; i++)
-            {
-                Console.WriteLine($"Enter step {i + 1}: ");
+                {
+                Console.Write($"Enter step {i + 1}: ");
                 steps[i] = Console.ReadLine();
-            }
+                }
 
-            Console.WriteLine("Recipe details entered successfully!");
+            Console.Write("Recipe details entered successfully!");
 
             // Store original quantities
             originalQuantities = quantities.ToArray(); // Copy the current quantities into originalQuantities
@@ -75,7 +79,8 @@ namespace RecipeAppPOE
 
             if (ingredients == null || ingredients.Length == 0)
             {
-                Console.WriteLine("No recipe details found. Please enter recipe details first.");
+                Console.WriteLine(
+                    "\nNo recipe details found. Please enter recipe details first.\n");
                 return;
             }
 
@@ -85,11 +90,11 @@ namespace RecipeAppPOE
                 Console.WriteLine($"{quantities[i]} {units[i]} of {ingredients[i]}");
             }
 
-            Console.WriteLine("Steps:");
+            Console.Write("Steps:");
 
             if (steps == null || steps.Length == 0)
             {
-                Console.WriteLine("No recipe steps found.");
+                Console.WriteLine("\nNo recipe steps found.");
                 return;
             }
 
@@ -105,15 +110,27 @@ namespace RecipeAppPOE
         {
             if (ingredients == null || ingredients.Length == 0)
             {
-                Console.WriteLine("No recipe details found. Please enter recipe details first.");
+                Console.WriteLine("\nNo recipe details found. Please enter recipe details first.");
                 return;
             }
 
-            Console.WriteLine("Enter the scaling factor (0.5 for half, 2 for double, 3 for triple): ");
-            if (!double.TryParse(Console.ReadLine(), out double factor) || factor <= 0)
+            double factor;
+            while (true)
             {
-                Console.WriteLine("Invalid input! Please enter a positive number for the scaling factor.");
-                return;
+                Console.Write("Enter the scaling factor (0.5 for half, 2 for double, 3 for triple): ");
+                string input = Console.ReadLine();
+
+                // Replace commas with dots in the input string
+                input = input.Replace(',', '.');
+
+                if (double.TryParse(input, NumberStyles.Any, CultureInfo.InvariantCulture, out factor) && factor > 0)
+                {
+                    break; // Exit the loop if a valid factor is entered
+                }
+                else
+                {
+                    Console.WriteLine("\nInvalid input! Please enter a valid positive number for the scaling factor.");
+                }
             }
 
             // Loop to scale ingredient quantities
@@ -122,15 +139,22 @@ namespace RecipeAppPOE
                 quantities[i] *= factor;
             }
 
-            Console.WriteLine("Recipe scaled successfully!");
+            Console.WriteLine("\nRecipe scaled successfully!");
         }
 
         // Method to reset ingredient quantities to original values
         public void ResetQuantities()
         {
-            // Reset quantities to original values
-            // Assuming original quantities are stored somewhere else and can be retrieved
-            Console.WriteLine("Quantities reset to original values.");
+            if (originalQuantities != null)
+            {
+                // Copy original quantities back to quantities array
+                originalQuantities.CopyTo(quantities, 0);
+                Console.WriteLine("\nQuantities reset to original values.");
+            }
+            else
+            {
+                Console.WriteLine("\nNo original quantities found. Please enter recipe details first.");
+            }
         }
 
     
@@ -142,7 +166,7 @@ namespace RecipeAppPOE
             units = null;
             steps = null;
 
-            Console.WriteLine("All data cleared.");
+            Console.WriteLine("\nAll data cleared.");
         }
     } 
     
