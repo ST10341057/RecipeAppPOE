@@ -14,7 +14,7 @@ namespace RecipeApp
             while (true)
             {   
                 // Display menu options
-                Console.WriteLine("------------------------------------");
+                Console.WriteLine("\n------------------------------------");
                 Console.WriteLine("========== Recipe App ^_^ ==========");
                 Console.WriteLine("------------------------------------");
                 

@@ -20,11 +20,21 @@ namespace RecipeAppPOE
         // Method to enter recipe details
         public void EnterRecipeDetails()
         {
-            Console.Write("Enter the number of ingredients: ");
-            if (!int.TryParse(Console.ReadLine(), out int numIngredients) || numIngredients <= 0)
+            int numIngredients;
+            while (true)
             {
-                Console.WriteLine("\nInvalid input! Please enter a positive integer.");
-                return;
+                Console.WriteLine("\n------------------------------------");
+                Console.WriteLine("----------Recipe Details------------");
+                Console.WriteLine("------------------------------------");
+                Console.Write("\nEnter the number of ingredients: ");
+                if (!int.TryParse(Console.ReadLine(), out numIngredients) || numIngredients <= 0)
+                {
+                    Console.WriteLine("\nInvalid input! Please enter a positive integer.\n");
+                }
+                else
+                {
+                    break; // Exit the loop if a valid number of ingredients is entered
+                }
             }
 
             ingredients = new string[numIngredients];
@@ -37,34 +47,47 @@ namespace RecipeAppPOE
                 Console.Write($"Enter name of ingredient {i + 1}: ");
                 ingredients[i] = Console.ReadLine();
 
-                Console.Write($"Enter quantity of ingredient {i + 1}: ");
-                    if (!double.TryParse(Console.ReadLine(), out quantities[i]) || quantities[i] <= 0)
+                while (true)
+                {
+                    Console.Write($"Enter quantity of ingredient {i + 1}: ");
+                    if (double.TryParse(Console.ReadLine(), out quantities[i]) && quantities[i] > 0)
                     {
-                        Console.WriteLine("\nInvalid input! Please enter a positive number for quantity.");
-                        return;
+                        break; // Exit the loop if a valid quantity is entered
                     }
+                    else
+                    {
+                        Console.WriteLine("\nInvalid input! Please enter a positive number for quantity.\n");
+                    }
+                }
 
-                    Console.Write($"Enter unit of measurement for ingredient {i + 1}: ");
+                Console.Write($"Enter unit of measurement for ingredient {i + 1}: ");
                 units[i] = Console.ReadLine();
             }
 
-            Console.Write("Enter the number of steps: ");
-                if (!int.TryParse(Console.ReadLine(), out int numSteps) || numSteps <= 0)
+            int numSteps;
+            while (true)
+            {
+                Console.Write("Enter the number of steps: ");
+                if (int.TryParse(Console.ReadLine(), out numSteps) && numSteps > 0)
                 {
-                    Console.WriteLine("\nInvalid input! Please enter a positive integer.");
-                    return;
+                    break; // Exit the loop if a valid number of steps is entered
                 }
-
-                steps = new string[numSteps];
-
-                // Loop to enter recipe steps
-                for (int i = 0; i < numSteps; i++)
+                else
                 {
+                    Console.WriteLine("\nInvalid input! Please enter a positive integer.\n");
+                }
+            }
+
+            steps = new string[numSteps];
+
+            // Loop to enter recipe steps
+            for (int i = 0; i < numSteps; i++)
+            {
                 Console.Write($"Enter step {i + 1}: ");
                 steps[i] = Console.ReadLine();
-                }
+            }
 
-            Console.Write("Recipe details entered successfully!");
+            Console.WriteLine("Recipe details entered successfully!");
 
             // Store original quantities
             originalQuantities = quantities.ToArray(); // Copy the current quantities into originalQuantities
@@ -74,12 +97,14 @@ namespace RecipeAppPOE
         // Method to display the recipe
         public void DisplayRecipe()
         {
-            Console.WriteLine("Recipe:");
-            Console.WriteLine("Ingredients:");
+            Console.WriteLine("\n------------------------------------");
+            Console.WriteLine("---------------RECIPE---------------");
+            Console.WriteLine("------------------------------------\n");
+            Console.WriteLine("Ingredients:\n");
 
             if (ingredients == null || ingredients.Length == 0)
             {
-                Console.WriteLine(
+                Console.WriteLine("\\" +
                     "\nNo recipe details found. Please enter recipe details first.\n");
                 return;
             }
@@ -90,7 +115,7 @@ namespace RecipeAppPOE
                 Console.WriteLine($"{quantities[i]} {units[i]} of {ingredients[i]}");
             }
 
-            Console.Write("Steps:");
+            Console.Write("\nSteps:\n");
 
             if (steps == null || steps.Length == 0)
             {
@@ -117,6 +142,9 @@ namespace RecipeAppPOE
             double factor;
             while (true)
             {
+                Console.WriteLine("\n------------------------------------");
+                Console.WriteLine("----------Scale Recipe-------------");
+                Console.WriteLine("------------------------------------\n");
                 Console.Write("Enter the scaling factor (0.5 for half, 2 for double, 3 for triple): ");
                 string input = Console.ReadLine();
 
@@ -129,7 +157,7 @@ namespace RecipeAppPOE
                 }
                 else
                 {
-                    Console.WriteLine("\nInvalid input! Please enter a valid positive number for the scaling factor.");
+                    Console.WriteLine("\nInvalid input! Please enter a valid positive number for the scaling factor.\n");
                 }
             }
 
