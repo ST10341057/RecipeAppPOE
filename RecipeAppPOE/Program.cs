@@ -14,9 +14,9 @@ namespace RecipeApp
             while (true)
             {   
                 // Display menu options
-                Console.WriteLine("\n------------------------------------");
+                Console.WriteLine("\n\u001b[34m------------------------------------");
                 Console.WriteLine("========== Recipe App ^_^ ==========");
-                Console.WriteLine("------------------------------------");
+                Console.WriteLine("------------------------------------\u001b[0m");
                 
                 Console.WriteLine("\n1. Enter Recipe Details");
                 Console.WriteLine("2. Display Recipe");
@@ -25,7 +25,7 @@ namespace RecipeApp
                 Console.WriteLine("5. Clear All Data");
                 Console.WriteLine("6. Exit");
                 Console.WriteLine("-------------------");
-                Console.Write("Choose an option: ");
+                Console.Write("\n\u001b[34mChoose an option: \u001b[0m");
                 
 
                 string option = Console.ReadLine();
@@ -50,7 +50,7 @@ namespace RecipeApp
                     case "6":
                         return; // Exit the program
                     default:
-                        Console.WriteLine("\nInvalid option! Please choose again.");
+                        Console.WriteLine("\n\u001b[31mInvalid option! Please choose again.\u001b[0m");
                         break;
                 }
             }

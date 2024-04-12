@@ -23,13 +23,13 @@ namespace RecipeAppPOE
             int numIngredients;
             while (true)
             {
-                Console.WriteLine("\n------------------------------------");
+                Console.WriteLine("\n\u001b[34m------------------------------------");
                 Console.WriteLine("----------Recipe Details------------");
-                Console.WriteLine("------------------------------------");
+                Console.WriteLine("------------------------------------\u001b[0m");
                 Console.Write("\nEnter the number of ingredients: ");
                 if (!int.TryParse(Console.ReadLine(), out numIngredients) || numIngredients <= 0)
                 {
-                    Console.WriteLine("\nInvalid input! Please enter a positive integer.\n");
+                    Console.WriteLine("\n\u001b[31mInvalid input! Please enter a positive integer.\u001b[0m\n");
                 }
                 else
                 {
@@ -56,7 +56,7 @@ namespace RecipeAppPOE
                     }
                     else
                     {
-                        Console.WriteLine("\nInvalid input! Please enter a positive number for quantity.\n");
+                        Console.WriteLine("\n\u001b[31mInvalid input! Please enter a positive number for quantity.\u001b[0m\n");
                     }
                 }
 
@@ -74,7 +74,7 @@ namespace RecipeAppPOE
                 }
                 else
                 {
-                    Console.WriteLine("\nInvalid input! Please enter a positive integer.\n");
+                    Console.WriteLine("\n\u001b[31mInvalid input! Please enter a positive integer.\u001b[0m\n");
                 }
             }
 
@@ -97,15 +97,15 @@ namespace RecipeAppPOE
         // Method to display the recipe
         public void DisplayRecipe()
         {
-            Console.WriteLine("\n------------------------------------");
+            Console.WriteLine("\n\u001b[34m------------------------------------");
             Console.WriteLine("---------------RECIPE---------------");
-            Console.WriteLine("------------------------------------\n");
+            Console.WriteLine("------------------------------------\u001b[0m\n");
             Console.WriteLine("Ingredients:\n");
 
             if (ingredients == null || ingredients.Length == 0)
             {
                 Console.WriteLine("\\" +
-                    "\nNo recipe details found. Please enter recipe details first.\n");
+                    "\n\u001b[31mNo recipe details found. Please enter recipe details first.\u001b[0m\n");
                 return;
             }
 
@@ -135,16 +135,16 @@ namespace RecipeAppPOE
         {
             if (ingredients == null || ingredients.Length == 0)
             {
-                Console.WriteLine("\nNo recipe details found. Please enter recipe details first.");
+                Console.WriteLine("\n\u001b[31mNo recipe details found. Please enter recipe details first.\u001b[0m");
                 return;
             }
 
             double factor;
             while (true)
             {
-                Console.WriteLine("\n------------------------------------");
+                Console.WriteLine("\n\u001b[34m------------------------------------");
                 Console.WriteLine("----------Scale Recipe-------------");
-                Console.WriteLine("------------------------------------\n");
+                Console.WriteLine("------------------------------------\u001b[0m\n");
                 Console.Write("Enter the scaling factor (0.5 for half, 2 for double, 3 for triple): ");
                 string input = Console.ReadLine();
 
@@ -157,7 +157,7 @@ namespace RecipeAppPOE
                 }
                 else
                 {
-                    Console.WriteLine("\nInvalid input! Please enter a valid positive number for the scaling factor.\n");
+                    Console.WriteLine("\n\u001b[31mInvalid input! Please enter a valid positive number for the scaling factor.\u001b[0m\n");
                 }
             }
 
@@ -181,7 +181,7 @@ namespace RecipeAppPOE
             }
             else
             {
-                Console.WriteLine("\nNo original quantities found. Please enter recipe details first.");
+                Console.WriteLine("\n\u001b[31mNo original quantities found. Please enter recipe details first.\u001b[0m");
             }
         }
 
