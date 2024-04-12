@@ -87,7 +87,7 @@ namespace RecipeAppPOE
                 steps[i] = Console.ReadLine();
             }
 
-            Console.WriteLine("Recipe details entered successfully!");
+            Console.WriteLine("\x1b[1mRecipe details entered successfully!\u001b[0m");
 
             // Store original quantities
             originalQuantities = quantities.ToArray(); // Copy the current quantities into originalQuantities
@@ -100,7 +100,7 @@ namespace RecipeAppPOE
             Console.WriteLine("\n\u001b[34m------------------------------------");
             Console.WriteLine("---------------RECIPE---------------");
             Console.WriteLine("------------------------------------\u001b[0m\n");
-            Console.WriteLine("Ingredients:\n");
+            Console.WriteLine("\u001b[31mIngredients:\u001b[0m\n");
 
             if (ingredients == null || ingredients.Length == 0)
             {
@@ -115,11 +115,11 @@ namespace RecipeAppPOE
                 Console.WriteLine($"{quantities[i]} {units[i]} of {ingredients[i]}");
             }
 
-            Console.Write("\nSteps:\n");
+            Console.Write("\n\u001b[31mSteps:\u001b[0m\n");
 
             if (steps == null || steps.Length == 0)
             {
-                Console.WriteLine("\nNo recipe steps found.");
+                Console.WriteLine("\n\u001b[31mNo recipe steps found.\u001b[0m");
                 return;
             }
 
@@ -167,7 +167,7 @@ namespace RecipeAppPOE
                 quantities[i] *= factor;
             }
 
-            Console.WriteLine("\nRecipe scaled successfully!");
+            Console.WriteLine("\n\x1b[1mRecipe scaled successfully!\u001b[0m");
         }
 
         // Method to reset ingredient quantities to original values
@@ -177,7 +177,7 @@ namespace RecipeAppPOE
             {
                 // Copy original quantities back to quantities array
                 originalQuantities.CopyTo(quantities, 0);
-                Console.WriteLine("\nQuantities reset to original values.");
+                Console.WriteLine("\n\x1b[1mQuantities reset to original values.\u001b[0m");
             }
             else
             {
@@ -185,17 +185,42 @@ namespace RecipeAppPOE
             }
         }
 
-    
+
         // Method to clear all recipe data
         public void ClearAllData()
         {
-            ingredients = null;
-            quantities = null;
-            units = null;
-            steps = null;
+            Console.WriteLine("\nAre you sure you want to clear all data? (yes/no)");
 
-            Console.WriteLine("\nAll data cleared.");
+            string confirmation;
+            while (true)
+            {
+                confirmation = Console.ReadLine().Trim().ToLower();
+
+                if (confirmation == "yes" || confirmation == "no" || confirmation == "y" || confirmation == "n")
+                {
+                    break; // Exit the loop if a valid confirmation is entered
+                }
+                else
+                {
+                    Console.WriteLine("\u001b[31mInvalid input! Please enter 'yes' or 'no'.\u001b[0m");
+                }
+            }
+
+            if (confirmation == "yes" || confirmation == "y")
+            {
+                ingredients = null;
+                quantities = null;
+                units = null;
+                steps = null;
+
+                Console.WriteLine("\n\x1b[1mAll data cleared.\u001b[0m");
+            }
+            else
+            {
+                Console.WriteLine("\n\x1b[1mClear all data operation cancelled.\u001b[0m");
+            }
         }
-    } 
-    
+
+    }
+
 }
