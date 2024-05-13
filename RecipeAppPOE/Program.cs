@@ -229,6 +229,54 @@ namespace RecipeApp
             }
         }
 
+        // Method to scale the recipe
+        static void ScaleRecipe(Recipe recipe)
+        {
+            try
+            {
+                Console.Write("\nEnter the scaling factor (0.5 for half, 2 for double, 3 for triple): ");
+                double factor = Convert.ToDouble(Console.ReadLine());
+                recipe.ScaleRecipe(factor); // Scale the recipe
+                Console.WriteLine("\nRecipe scaled successfully!");
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input! Please enter a valid number."); // Handle format exception for numeric input
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}"); // Catch and display any other exceptions
+            }
+        }
+
+        // Method to reset quantities of the recipe
+        static void ResetQuantities(Recipe recipe)
+        {
+            try
+            {
+                recipe.ResetQuantities(); // Reset quantities of the recipe
+                Console.WriteLine("\nQuantities reset to original values.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}"); // Catch and display any other exceptions
+            }
+        }
+
+        // Method to clear all data of the recipe
+        static void ClearAllData(Recipe recipe)
+        {
+            try
+            {
+                recipe.ClearAllData(); // Clear all data of the recipe
+                Console.WriteLine("\nAll data cleared.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}"); // Catch and display any other exceptions
+            }
+        }
+
     }
 
 }
