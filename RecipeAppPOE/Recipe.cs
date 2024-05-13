@@ -45,36 +45,9 @@ namespace RecipeAppPOE
         // Method to clear all recipe data
         public void ClearAllData()
         {
-            Console.WriteLine("\nAre you sure you want to clear all data? (yes/no)");
-
-            string confirmation;
-            while (true)
-            {
-                confirmation = Console.ReadLine().Trim().ToLower();
-
-                if (confirmation == "yes" || confirmation == "no" || confirmation == "y" || confirmation == "n")
-                {
-                    break; // Exit the loop if a valid confirmation is entered
-                }
-                else
-                {
-                    Console.WriteLine("\u001b[31mInvalid input! Please enter 'yes' or 'no'.\u001b[0m");
-                }
-            }
-
-            if (confirmation == "yes" || confirmation == "y")
-            {
-                ingredients = null;
-                quantities = null;
-                units = null;
-                steps = null;
-
-                Console.WriteLine("\n\u001b[2mAll data cleared.\u001b[0m");
-            }
-            else
-            {
-                Console.WriteLine("\u001b[2mClear all data operation cancelled.\u001b[0m");
-            }
+            // Clear ingredients and steps lists
+            Ingredients.Clear();
+            Steps.Clear();
         }
 
         public Recipe(string name)
