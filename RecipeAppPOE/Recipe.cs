@@ -50,12 +50,6 @@ namespace RecipeAppPOE
             Steps.Clear();
         }
 
-        public Recipe(string name)
-        {
-            Name = name;
-            Ingredients = new List<Ingredient>();
-            Steps = new List<string>();
-        }
 
         // Method to add an ingredient to the recipe
         public void AddIngredient(string name, double quantity, string unit, double calories, string foodGroup)
@@ -83,27 +77,33 @@ namespace RecipeAppPOE
         }
     }
 
-    // Class to represent an ingredient 
     internal class Ingredient
     {
         // Properties
-        public string Name { get; set; }         // Name of the ingredient
-        public double Quantity { get; set; }     // Quantity of the ingredient
-        public string Unit { get; set; }         // Unit of measurement
-        public double Calories { get; set; }     // Calories of the ingredient
-        public string FoodGroup { get; set; }    // Food group of the ingredient
+        public string Name { get; set; } // Name of the ingredient
+        public double Quantity { get; set; } // Quantity of the ingredient
+        public double OriginalQuantity { get; set; } // Original quantity of the ingredient
+        public string Unit { get; set; } // Unit of measurement
+        public double Calories { get; set; } // Calories per unit
+        public double OriginalCalories { get; set; } // Original calories per unit
+        public string FoodGroup { get; set; } // Food group of the ingredient
+
 
         // Constructor
         public Ingredient(string name, double quantity, string unit, double calories, string foodGroup)
         {
             Name = name;
             Quantity = quantity;
+            OriginalQuantity = quantity;
             Unit = unit;
             Calories = calories;
+            OriginalCalories = calories;
             FoodGroup = foodGroup;
         }
     }
+
 }
+
 
 
       
