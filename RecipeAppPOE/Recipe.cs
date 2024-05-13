@@ -20,6 +20,7 @@ namespace RecipeAppPOE
             Steps = new List<string>(); // Initialize steps list
         }
 
+
         // Method to add an ingredient to the recipe
         public void AddIngredient(string name, double quantity, string unit, double calories, string foodGroup)
         {
@@ -73,6 +74,18 @@ namespace RecipeAppPOE
             // Clear ingredients and steps lists
             Ingredients.Clear();
             Steps.Clear();
+        }
+
+        // Method to raise the CaloriesExceed event
+        public virtual void OnCaloriesExceed(string recipeName)
+        {
+            CaloriesExceed?.Invoke(recipeName);
+        }
+
+        // Event handler for CaloriesExceed event
+        static void Recipe_CaloriesExceed(string recipeName)
+        {
+            Console.WriteLine($"WARNING: Total calories of {recipeName} exceed 300!");
         }
     }
 

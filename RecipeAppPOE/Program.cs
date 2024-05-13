@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace RecipeAppPOE
 {
@@ -10,6 +11,14 @@ namespace RecipeAppPOE
 
         static void Main(string[] args)
         {
+            
+            Recipe recipe = new Recipe("High Calorie Recipe");
+
+            // Subscribe to the CaloriesExceed event
+            recipe.CaloriesExceed += Recipe_CaloriesExceed;
+
+    
+
             while (true)
             {
                 // Display main menu
@@ -39,6 +48,12 @@ namespace RecipeAppPOE
                         Console.WriteLine("\nInvalid option! Please choose again."); // Invalid option selected
                         break;
                 }
+            }
+
+            // Event handler for CaloriesExceed event
+            static void Recipe_CaloriesExceed(string recipeName)
+            {
+                Console.WriteLine($"WARNING: Total calories of {recipeName} exceed 300!");
             }
         }
 
@@ -236,6 +251,14 @@ namespace RecipeAppPOE
                     DisplayRecipeDetails(recipe); // Prompt again for option
                     break;
             }
+
+            // Check if total calories exceed 300
+            if (recipe.CalculateTotalCalories() > 300)
+            {
+                // Trigger CaloriesExceed event
+                recipe.OnCaloriesExceed(recipe.Name);
+            }
+
         }
 
         static void ScaleRecipe(Recipe recipe)
@@ -283,5 +306,7 @@ namespace RecipeAppPOE
             Console.WriteLine("\nAll data cleared.");
             DisplayRecipeDetails(recipe); // After clearing, display recipe details again
         }
+
+
     }
 }
