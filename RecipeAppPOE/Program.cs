@@ -49,3 +49,69 @@ namespace RecipeApp
                 Console.WriteLine($"An error occurred: {ex.Message}"); // Catch and display any unhandled exceptions
             }
         }
+
+        // Method to enter recipe details
+        static void EnterRecipeDetails()
+        {
+            try
+            {
+                Console.WriteLine("\n------------------------------------");
+                Console.WriteLine("---------- Recipe Details ----------");
+                Console.WriteLine("------------------------------------");
+
+                // Prompt user to enter recipe name
+                Console.Write("\nEnter the name of the recipe: ");
+                string recipeName = Console.ReadLine();
+
+                Recipe recipe = new Recipe(recipeName); // Create a new recipe
+
+                // Loop to add ingredients to the recipe
+                while (true)
+                {
+                    Console.WriteLine("\nAdd Ingredient:");
+                    Console.Write("Name: ");
+                    string name = Console.ReadLine();
+                    Console.Write("Quantity: ");
+                    double quantity = Convert.ToDouble(Console.ReadLine());
+                    Console.Write("Unit: ");
+                    string unit = Console.ReadLine();
+                    Console.Write("Calories: ");
+                    double calories = Convert.ToDouble(Console.ReadLine());
+                    Console.Write("Food Group: ");
+                    string foodGroup = Console.ReadLine();
+
+                    recipe.AddIngredient(name, quantity, unit, calories, foodGroup); // Add ingredient to the recipe
+
+                    Console.Write("\nDo you want to add another ingredient? (yes/no): ");
+                    string addAnother = Console.ReadLine().ToLower();
+                    if (addAnother != "yes")
+                        break;
+                }
+
+                // Loop to add steps to the recipe
+                while (true)
+                {
+                    Console.Write("\nEnter Step: ");
+                    string step = Console.ReadLine();
+                    recipe.Steps.Add(step); // Add step to the recipe
+
+                    Console.Write("\nDo you want to add another step? (yes/no): ");
+                    string addAnother = Console.ReadLine().ToLower();
+                    if (addAnother != "yes")
+                        break;
+                }
+
+                recipes.Add(recipe); // Add the recipe to the list of recipes
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input! Please enter a valid number."); // Handle format exception for numeric input
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}"); // Catch and display any other exceptions
+            }
+        }
+    }
+
+}
