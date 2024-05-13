@@ -30,18 +30,14 @@ namespace RecipeAppPOE
             Steps = new List<string>(); // Initialize steps list
         }
 
-        // Method to reset ingredient quantities to original values
+        // Method to reset ingredient quantities and calories to their original values
         public void ResetQuantities()
         {
-            if (originalQuantities != null)
+            // Reset each ingredient's quantity and calories to their original values
+            foreach (var ingredient in Ingredients)
             {
-                // Copy original quantities back to quantities array
-                originalQuantities.CopyTo(quantities, 0);
-                Console.WriteLine("\n\u001b[2mQuantities reset to original values.\u001b[0m");
-            }
-            else
-            {
-                Console.WriteLine("\n\u001b[31mNo original quantities found. Please enter recipe details first.\u001b[0m");
+                ingredient.Quantity = ingredient.OriginalQuantity;
+                ingredient.Calories = ingredient.OriginalCalories;
             }
         }
 
