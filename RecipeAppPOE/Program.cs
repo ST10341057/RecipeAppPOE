@@ -162,6 +162,73 @@ namespace RecipeApp
                 Console.WriteLine($"An error occurred: {ex.Message}"); // Catch and display any other exceptions
             }
         }
+
+        // Method to display details of a recipe
+        static void DisplayRecipeDetails(Recipe recipe)
+        {
+            try
+            {
+                Console.WriteLine("\n------------------------------------");
+                Console.WriteLine($"Recipe: {recipe.Name}");
+                Console.WriteLine("------------------------------------");
+
+                // Display ingredients of the recipe
+                Console.WriteLine("\nIngredients:");
+                foreach (var ingredient in recipe.Ingredients)
+                {
+                    Console.WriteLine($"- {ingredient.Name}: {ingredient.Quantity} {ingredient.Unit}, {ingredient.Calories} calories, {ingredient.FoodGroup}");
+                }
+
+                // Display steps of the recipe
+                Console.WriteLine("\nSteps:");
+                for (int i = 0; i < recipe.Steps.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {recipe.Steps[i]}");
+                }
+
+                // Display total calories of the recipe
+                Console.WriteLine($"\nTotal Calories: {recipe.CalculateTotalCalories()}");
+
+                Console.WriteLine("------------------------------------");
+
+                // After displaying recipe details, provide options for additional actions
+                Console.WriteLine("\nOptions:");
+                Console.WriteLine("1. Scale Recipe");
+                Console.WriteLine("2. Reset Quantities");
+                Console.WriteLine("3. Clear All Data");
+                Console.WriteLine("4. Go Back to Recipe List");
+                Console.Write("\nChoose an option: ");
+
+                string option = Console.ReadLine();
+
+                switch (option)
+                {
+                    case "1":
+                        ScaleRecipe(recipe); // Option to scale the recipe
+                        break;
+                    case "2":
+                        ResetQuantities(recipe); // Option to reset quantities of the recipe
+                        break;
+                    case "3":
+                        ClearAllData(recipe); // Option to clear all data of the recipe
+                        break;
+                    case "4":
+                        return; // Go back to the list of recipes
+                    default:
+                        Console.WriteLine("\nInvalid option! Please choose again."); // Invalid option selected
+                        break;
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input! Please enter a valid number."); // Handle format exception for numeric input
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}"); // Catch and display any other exceptions
+            }
+        }
+
     }
 
 }
