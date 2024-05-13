@@ -112,6 +112,56 @@ namespace RecipeApp
                 Console.WriteLine($"An error occurred: {ex.Message}"); // Catch and display any other exceptions
             }
         }
+
+        // Method to display list of recipes
+        static void DisplayListOfRecipes()
+        {
+            try
+            {
+                Console.WriteLine("\n------------------------------------");
+                Console.WriteLine("-------- List of Recipes -----------");
+                Console.WriteLine("------------------------------------");
+
+                if (recipes.Count == 0)
+                {
+                    Console.WriteLine("\nNo recipes found.");
+                    return;
+                }
+
+                recipes.Sort((r1, r2) => r1.Name.CompareTo(r2.Name)); // Sort recipes by name
+
+                // Display list of recipes
+                for (int i = 0; i < recipes.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {recipes[i].Name}");
+                }
+
+                // Prompt user to choose a recipe to display details
+                Console.Write("\nEnter the number of the recipe to display details (0 to cancel): ");
+                int recipeIndex = Convert.ToInt32(Console.ReadLine()) - 1;
+
+                if (recipeIndex >= 0 && recipeIndex < recipes.Count)
+                {
+                    DisplayRecipeDetails(recipes[recipeIndex]); // Display details of the selected recipe
+                }
+                else if (recipeIndex == -1)
+                {
+                    return; // Cancel option selected
+                }
+                else
+                {
+                    Console.WriteLine("\nInvalid recipe number.");
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input! Please enter a valid number."); // Handle format exception for numeric input
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}"); // Catch and display any other exceptions
+            }
+        }
     }
 
 }
