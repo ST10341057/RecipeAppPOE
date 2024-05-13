@@ -1,59 +1,39 @@
 ﻿using RecipeAppPOE;
-using System;
-
-namespace RecipeApp
 
 {
     class Program
+{
+    static List<Recipe> recipes = new List<Recipe>();
+
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        while (true)
         {
-            // Create a new Recipe object
-            Recipe recipe = new Recipe();
+            Console.WriteLine("\n------------------------------------");
+            Console.WriteLine("========== Recipe App ^_^ ==========");
+            Console.WriteLine("------------------------------------");
 
-            while (true)
-            {   
-                // Display menu options
-                Console.WriteLine("\n\u001b[34m------------------------------------");
-                Console.WriteLine("========== Recipe App ^_^ ==========");
-                Console.WriteLine("------------------------------------\u001b[0m");
-                
-                Console.WriteLine("\n1. Enter Recipe Details");
-                Console.WriteLine("2. Display Recipe");
-                Console.WriteLine("3. Scale Recipe");
-                Console.WriteLine("4. Reset Quantities");
-                Console.WriteLine("5. Clear All Data");
-                Console.WriteLine("6. Exit");
-                Console.WriteLine("-------------------");
-                Console.Write("\n\u001b[34mChoose an option: \u001b[0m");
-                
+            Console.WriteLine("\n1. Enter Recipe Details");
+            Console.WriteLine("2. Display List of Recipes");
+            Console.WriteLine("3. Exit");
+            Console.WriteLine("-------------------");
+            Console.Write("\nChoose an option: ");
 
-                string option = Console.ReadLine();
+            string option = Console.ReadLine();
 
-                switch (option)
-                {
-                    case "1":
-                        recipe.EnterRecipeDetails();
-                        break;
-                    case "2":
-                        recipe.DisplayRecipe();
-                        break;
-                    case "3":
-                        recipe.ScaleRecipe();
-                        break;
-                    case "4":
-                        recipe.ResetQuantities();
-                        break;
-                    case "5":
-                        recipe.ClearAllData();
-                        break;
-                    case "6":
-                        return; // Exit the program
-                    default:
-                        Console.WriteLine("\n\u001b[31mInvalid option! Please choose again.\u001b[0m");
-                        break;
-                }
+            switch (option)
+            {
+                case "1":
+                    EnterRecipeDetails();
+                    break;
+                case "2":
+                    DisplayListOfRecipes();
+                    break;
+                case "3":
+                    return;
+                default:
+                    Console.WriteLine("\nInvalid option! Please choose again.");
+                    break;
             }
         }
     }
-}

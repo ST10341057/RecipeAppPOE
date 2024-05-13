@@ -1,21 +1,26 @@
-﻿using System;
+﻿using RecipeAppPOE;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 
 namespace RecipeAppPOE
 {
     internal class Recipe
     {
-        private string[] ingredients; // Array to store ingredient names
-        private double[] quantities; // Array to store ingredient quantities
-        private string[] units; // Array to store units of measurement
-        private string[] steps; // Array to store recipe steps
-        private double[] originalQuantities; // Array to store original ingredient quantities
+        // Properties
+        public string Name { get; set; }                     // Name of the recipe
+        public List<Ingredient> Ingredients { get; set; }    // List of ingredients
+        public List<string> Steps { get; set; }              // List of steps
+
+        // Delegate for notification when calories exceed 300
+        public delegate void CaloriesExceedHandler(string recipeName);
+        public event CaloriesExceedHandler CaloriesExceed;
 
         // Method to enter recipe details
         public void EnterRecipeDetails()
@@ -87,7 +92,7 @@ namespace RecipeAppPOE
                 steps[i] = Console.ReadLine();
             }
 
-            Console.WriteLine("\x1b[1mRecipe details entered successfully!\u001b[0m");
+            Console.WriteLine("\u001b[2mRecipe details entered successfully!\u001b[0m");
 
             // Store original quantities
             originalQuantities = quantities.ToArray(); // Copy the current quantities into originalQuantities
@@ -167,7 +172,7 @@ namespace RecipeAppPOE
                 quantities[i] *= factor;
             }
 
-            Console.WriteLine("\n\x1b[1mRecipe scaled successfully!\u001b[0m");
+            Console.WriteLine("\n\u001b[2mRecipe scaled successfully!\u001b[0m");
         }
 
         // Method to reset ingredient quantities to original values
@@ -177,7 +182,7 @@ namespace RecipeAppPOE
             {
                 // Copy original quantities back to quantities array
                 originalQuantities.CopyTo(quantities, 0);
-                Console.WriteLine("\n\x1b[1mQuantities reset to original values.\u001b[0m");
+                Console.WriteLine("\n\u001b[2mQuantities reset to original values.\u001b[0m");
             }
             else
             {
@@ -213,14 +218,66 @@ namespace RecipeAppPOE
                 units = null;
                 steps = null;
 
-                Console.WriteLine("\n\x1b[1mAll data cleared.\u001b[0m");
+                Console.WriteLine("\n\u001b[2mAll data cleared.\u001b[0m");
             }
             else
             {
-                Console.WriteLine("\n\x1b[1mClear all data operation cancelled.\u001b[0m");
+                Console.WriteLine("\u001b[2mClear all data operation cancelled.\u001b[0m");
             }
         }
 
+        public Recipe(string name)
+        {
+            Name = name;
+            Ingredients = new List<Ingredient>();
+            Steps = new List<string>();
+        }
+
+        // Method to add an ingredient to the recipe
+        public void AddIngredient(string name, double quantity, string unit, double calories, string foodGroup)
+        {
+            Ingredients.Add(new Ingredient(name, quantity, unit, calories, foodGroup));
+            // Check if total calories exceed 300
+            if (CalculateTotalCalories() > 300)
+            {
+                // Notify the user
+                CaloriesExceed?.Invoke(Name);
+            }
+        }
+
+        // Method to calculate the total calories of the recipe
+        public double CalculateTotalCalories()
+        {
+            double totalCalories = 0;
+            foreach (var ingredient in Ingredients)
+            {
+                totalCalories += ingredient.Calories;
+            }
+            return totalCalories;
+        }
     }
 
+    // Class to represent an ingredient 
+    internal class Ingredient
+    {
+        // Properties
+        public string Name { get; set; }         // Name of the ingredient
+        public double Quantity { get; set; }     // Quantity of the ingredient
+        public string Unit { get; set; }         // Unit of measurement
+        public double Calories { get; set; }     // Calories of the ingredient
+        public string FoodGroup { get; set; }    // Food group of the ingredient
+
+        // Constructor
+        public Ingredient(string name, double quantity, string unit, double calories, string foodGroup)
+        {
+            Name = name;
+            Quantity = quantity;
+            Unit = unit;
+            Calories = calories;
+            FoodGroup = foodGroup;
+        }
+    }
 }
+
+
+      
