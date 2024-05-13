@@ -60,11 +60,12 @@ namespace RecipeAppPOE
         // Method to add an ingredient to the recipe
         public void AddIngredient(string name, double quantity, string unit, double calories, string foodGroup)
         {
+            // Create a new Ingredient object and add it to the ingredients list
             Ingredients.Add(new Ingredient(name, quantity, unit, calories, foodGroup));
-            // Check if total calories exceed 300
+
+            // Check if total calories exceed 300 and trigger event if necessary
             if (CalculateTotalCalories() > 300)
             {
-                // Notify the user
                 CaloriesExceed?.Invoke(Name);
             }
         }
@@ -75,7 +76,8 @@ namespace RecipeAppPOE
             double totalCalories = 0;
             foreach (var ingredient in Ingredients)
             {
-                totalCalories += ingredient.Calories;
+                // Calculate calories for each ingredient and sum them up
+                totalCalories += ingredient.Calories * ingredient.Quantity;
             }
             return totalCalories;
         }
