@@ -9,8 +9,13 @@ namespace RecipeAppPOE
         public string Name { get; set; } // Name of the recipe
         public List<Ingredient> Ingredients { get; set; } // List of ingredients
         public List<string> Steps { get; set; } // List of steps
-        public delegate void CaloriesExceedHandler(string recipeName); // Delegate for handling calories exceeding 300
-        public event CaloriesExceedHandler CaloriesExceed; // Event triggered when calories exceed 300
+
+        // Delegates and events for handling calorie thresholds
+        public delegate void CaloriesExceedHandler(string recipeName);
+        public event CaloriesExceedHandler CaloriesExceed;
+
+        public delegate void CaloriesWarningHandler(string recipeName, double calories);
+        public event CaloriesWarningHandler CaloriesWarning;
 
         // Constructor
         public Recipe(string name)
@@ -20,15 +25,20 @@ namespace RecipeAppPOE
             Steps = new List<string>(); // Initialize steps list
         }
 
-
         // Method to add an ingredient to the recipe
         public void AddIngredient(string name, double quantity, string unit, double calories, string foodGroup)
         {
             // Create a new Ingredient object and add it to the ingredients list
             Ingredients.Add(new Ingredient(name, quantity, unit, calories, foodGroup));
 
-            // Check if total calories exceed 300 and trigger event if necessary
-            if (CalculateTotalCalories() > 300)
+            double totalCalories = CalculateTotalCalories();
+            // Trigger warning if calories are approaching 300
+            if (totalCalories > 250 && totalCalories <= 300)
+            {
+                CaloriesWarning?.Invoke(Name, totalCalories);
+            }
+            // Trigger exceed event if calories exceed 300
+            else if (totalCalories > 300)
             {
                 CaloriesExceed?.Invoke(Name);
             }
@@ -71,7 +81,6 @@ namespace RecipeAppPOE
         // Method to clear all recipe data
         public void ClearAllData()
         {
-            // Clear ingredients and steps lists
             Ingredients.Clear();
             Steps.Clear();
         }
@@ -82,23 +91,23 @@ namespace RecipeAppPOE
             CaloriesExceed?.Invoke(recipeName);
         }
 
-        // Event handler for CaloriesExceed event
-        static void Recipe_CaloriesExceed(string recipeName)
+        // Method to raise the CaloriesWarning event
+        public virtual void OnCaloriesWarning(string recipeName, double calories)
         {
-            Console.WriteLine($"WARNING: Total calories of {recipeName} exceed 300!");
+            CaloriesWarning?.Invoke(recipeName, calories);
         }
     }
 
     internal class Ingredient
     {
         // Properties
-        public string Name { get; set; } // Name of the ingredient
-        public double Quantity { get; set; } // Quantity of the ingredient
-        public double OriginalQuantity { get; set; } // Original quantity of the ingredient
-        public string Unit { get; set; } // Unit of measurement
-        public double Calories { get; set; } // Calories per unit
-        public double OriginalCalories { get; set; } // Original calories per unit
-        public string FoodGroup { get; set; } // Food group of the ingredient
+        public string Name { get; set; }
+        public double Quantity { get; set; }
+        public double OriginalQuantity { get; set; }
+        public string Unit { get; set; }
+        public double Calories { get; set; }
+        public double OriginalCalories { get; set; }
+        public string FoodGroup { get; set; }
 
         // Constructor
         public Ingredient(string name, double quantity, string unit, double calories, string foodGroup)

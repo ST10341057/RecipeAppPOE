@@ -1,24 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
 
 namespace RecipeAppPOE
 {
     class Program
     {
-        static List<Recipe> recipes = new List<Recipe>(); // List to store recipes
+        // List to store recipes
+        static List<Recipe> recipes = new List<Recipe>();
 
         static void Main(string[] args)
         {
-            
-            Recipe recipe = new Recipe("High Calorie Recipe");
-
-            // Subscribe to the CaloriesExceed event
-            recipe.CaloriesExceed += Recipe_CaloriesExceed;
-
-    
-
             while (true)
             {
                 // Display main menu
@@ -49,14 +40,9 @@ namespace RecipeAppPOE
                         break;
                 }
             }
-
-            // Event handler for CaloriesExceed event
-            static void Recipe_CaloriesExceed(string recipeName)
-            {
-                Console.WriteLine($"WARNING: Total calories of {recipeName} exceed 300!");
-            }
         }
 
+        // Method to enter recipe details
         static void EnterRecipeDetails()
         {
             while (true)
@@ -71,39 +57,21 @@ namespace RecipeAppPOE
                     Console.Write("\nEnter the name of the recipe: ");
                     string recipeName = Console.ReadLine();
 
-                    Recipe recipe = new Recipe(recipeName); // Create a new recipe
+                    // Create a new recipe
+                    Recipe recipe = new Recipe(recipeName);
+
+                    // Subscribe to events
+                    recipe.CaloriesExceed += Recipe_CaloriesExceed;
+                    recipe.CaloriesWarning += Recipe_CaloriesWarning;
 
                     // Loop to add ingredients to the recipe
                     while (true)
                     {
-                        Console.WriteLine("\nAdd Ingredient:");
-                        Console.Write("Name: ");
-                        string name = Console.ReadLine();
-                        Console.Write("Quantity: ");
-                        double quantity = Convert.ToDouble(Console.ReadLine());
-                        Console.Write("Unit: ");
-                        string unit = Console.ReadLine();
-                        Console.Write("Calories: ");
-                        double calories = Convert.ToDouble(Console.ReadLine());
-                        Console.Write("Food Group: ");
-                        string foodGroup = Console.ReadLine();
+                        Ingredient ingredient = GetIngredientDetails(); // Get ingredient details from user
+                        recipe.AddIngredient(ingredient.Name, ingredient.Quantity, ingredient.Unit, ingredient.Calories, ingredient.FoodGroup);
 
-                        recipe.AddIngredient(name, quantity, unit, calories, foodGroup); // Add ingredient to the recipe
-
-                        // Loop until valid input is provided for adding another ingredient
-                        string addAnotherIngredient;
-                        while (true)
-                        {
-                            Console.Write("\nDo you want to add another ingredient? (yes/no): ");
-                            addAnotherIngredient = Console.ReadLine().ToLower();
-                            if (addAnotherIngredient == "yes" || addAnotherIngredient == "no")
-                                break; // Exit the loop if input is either "yes" or "no"
-                            else
-                                Console.WriteLine("Invalid input! Please enter 'yes' or 'no'.");
-                        }
-
-                        if (addAnotherIngredient == "no")
-                            break; // Exit the loop if user does not want to add another ingredient
+                        if (!PromptForMore("ingredient")) // Check if user wants to add more ingredients
+                            break;
                     }
 
                     // Loop to add steps to the recipe
@@ -113,37 +81,64 @@ namespace RecipeAppPOE
                         string step = Console.ReadLine();
                         recipe.Steps.Add(step); // Add step to the recipe
 
-                        // Loop until valid input is provided for adding another step
-                        string addAnotherStep;
-                        while (true)
-                        {
-                            Console.Write("\nDo you want to add another step? (yes/no): ");
-                            addAnotherStep = Console.ReadLine().ToLower();
-                            if (addAnotherStep == "yes" || addAnotherStep == "no")
-                                break; // Exit the loop if input is either "yes" or "no"
-                            else
-                                Console.WriteLine("Invalid input! Please enter 'yes' or 'no'.");
-                        }
-
-                        if (addAnotherStep == "no")
-                            break; // Exit the loop if user does not want to add another step
+                        if (!PromptForMore("step")) // Check if user wants to add more steps
+                            break;
                     }
 
-                    recipes.Add(recipe); // Add the recipe to the list of recipes
-                    break; // Exit the loop if recipe details are successfully entered
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Invalid input! Please enter a valid number."); // Handle format exception for numeric input
+                    recipes.Add(recipe); // Add the recipe to the list
+                    break;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"An error occurred: {ex.Message}"); // Catch and display any other exceptions
+                    Console.WriteLine($"An error occurred: {ex.Message}"); // Catch and display any exceptions
                 }
             }
         }
 
+        // Method to prompt user if they want to add more items (ingredients or steps)
+        static bool PromptForMore(string item)
+        {
+            while (true)
+            {
+                Console.Write($"\nDo you want to add another {item}? (yes/no): ");
+                string input = Console.ReadLine().ToLower();
+                if (input == "yes") return true; // Continue adding
+                if (input == "no") return false; // Stop adding
+                Console.WriteLine("Invalid input! Please enter 'yes' or 'no'."); // Invalid input
+            }
+        }
 
+        // Method to get ingredient details from user
+        static Ingredient GetIngredientDetails()
+        {
+            Console.WriteLine("\nAdd Ingredient:");
+            Console.Write("Name: ");
+            string name = Console.ReadLine();
+            double quantity = ReadDouble("Quantity: "); // Get quantity
+            Console.Write("Unit: ");
+            string unit = Console.ReadLine();
+            double calories = ReadDouble("Calories: "); // Get calories
+            Console.Write("Food Group: ");
+            string foodGroup = Console.ReadLine();
+
+            return new Ingredient(name, quantity, unit, calories, foodGroup);
+        }
+
+        // Method to read a double value from user with validation
+        static double ReadDouble(string prompt)
+        {
+            while (true)
+            {
+                Console.Write(prompt);
+                if (double.TryParse(Console.ReadLine(), out double value))
+                {
+                    return value; // Return valid input
+                }
+                Console.WriteLine("Invalid input! Please enter a valid number."); // Invalid input
+            }
+        }
+
+        // Method to display the list of recipes
         static void DisplayListOfRecipes()
         {
             while (true)
@@ -156,16 +151,15 @@ namespace RecipeAppPOE
 
                     if (recipes.Count == 0)
                     {
-                        Console.WriteLine("\nNo recipes found.");
+                        Console.WriteLine("\nNo recipes found."); // No recipes in the list
                         return;
                     }
 
                     recipes.Sort((r1, r2) => r1.Name.CompareTo(r2.Name)); // Sort recipes by name
 
-                    // Display list of recipes
                     for (int i = 0; i < recipes.Count; i++)
                     {
-                        Console.WriteLine($"{i + 1}. {recipes[i].Name}");
+                        Console.WriteLine($"{i + 1}. {recipes[i].Name}"); // Display recipe names
                     }
 
                     // Prompt user to choose a recipe to display details
@@ -175,7 +169,7 @@ namespace RecipeAppPOE
                     if (recipeIndex >= 0 && recipeIndex < recipes.Count)
                     {
                         DisplayRecipeDetails(recipes[recipeIndex]); // Display details of the selected recipe
-                        break; // Exit the loop after displaying recipe details
+                        break;
                     }
                     else if (recipeIndex == -1)
                     {
@@ -183,7 +177,7 @@ namespace RecipeAppPOE
                     }
                     else
                     {
-                        Console.WriteLine("\nInvalid recipe number.");
+                        Console.WriteLine("\nInvalid recipe number."); // Invalid recipe number
                     }
                 }
                 catch (FormatException)
@@ -197,6 +191,7 @@ namespace RecipeAppPOE
             }
         }
 
+        // Method to display recipe details
         static void DisplayRecipeDetails(Recipe recipe)
         {
             Console.WriteLine("\n------------------------------------");
@@ -219,10 +214,9 @@ namespace RecipeAppPOE
 
             // Display total calories of the recipe
             Console.WriteLine($"\nTotal Calories: {recipe.CalculateTotalCalories()}");
-
             Console.WriteLine("------------------------------------");
 
-            // After displaying recipe details, provide options for additional actions
+            // Display options for additional actions
             Console.WriteLine("\nOptions:");
             Console.WriteLine("1. Scale Recipe");
             Console.WriteLine("2. Reset Quantities");
@@ -252,15 +246,13 @@ namespace RecipeAppPOE
                     break;
             }
 
-            // Check if total calories exceed 300
             if (recipe.CalculateTotalCalories() > 300)
             {
-                // Trigger CaloriesExceed event
-                recipe.OnCaloriesExceed(recipe.Name);
+                recipe.OnCaloriesExceed(recipe.Name); // Trigger CaloriesExceed event if calories exceed 300
             }
-
         }
 
+        // Method to scale a recipe
         static void ScaleRecipe(Recipe recipe)
         {
             while (true)
@@ -272,27 +264,22 @@ namespace RecipeAppPOE
                     Console.WriteLine("------------------------------------");
 
                     // Prompt user to enter scaling factor
-                    Console.Write("\nEnter the scaling factor (0.5 for half, 2 for double, 3 for triple): ");
-                    double factor = Convert.ToDouble(Console.ReadLine());
-
+                    double factor = ReadDouble("\nEnter the scaling factor (0.5 for half, 2 for double, 3 for triple): ");
                     recipe.ScaleRecipe(factor); // Scale the recipe
 
                     Console.WriteLine("\nRecipe scaled successfully!");
-                    break; // Exit the loop after scaling the recipe
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Invalid input! Please enter a valid number."); // Handle format exception for numeric input
+                    break;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"An error occurred: {ex.Message}"); // Catch and display any other exceptions
+                    Console.WriteLine($"An error occurred: {ex.Message}"); // Catch and display any exceptions
                 }
             }
 
             DisplayRecipeDetails(recipe); // After scaling, display recipe details again
         }
 
+        // Method to reset ingredient quantities
         static void ResetQuantities(Recipe recipe)
         {
             recipe.ResetQuantities(); // Reset quantities of the recipe
@@ -300,6 +287,7 @@ namespace RecipeAppPOE
             DisplayRecipeDetails(recipe); // After resetting, display recipe details again
         }
 
+        // Method to clear all data of a recipe
         static void ClearAllData(Recipe recipe)
         {
             recipe.ClearAllData(); // Clear all data of the recipe
@@ -307,6 +295,16 @@ namespace RecipeAppPOE
             DisplayRecipeDetails(recipe); // After clearing, display recipe details again
         }
 
+        // Event handler for CaloriesExceed event
+        static void Recipe_CaloriesExceed(string recipeName)
+        {
+            Console.WriteLine($"WARNING: Total calories of {recipeName} exceed 300!");
+        }
 
+        // Event handler for CaloriesWarning event
+        static void Recipe_CaloriesWarning(string recipeName, double calories)
+        {
+            Console.WriteLine($"WARNING: Total calories of {recipeName} are approaching 300! Current calories: {calories}");
+        }
     }
 }
