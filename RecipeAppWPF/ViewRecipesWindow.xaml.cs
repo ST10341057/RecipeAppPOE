@@ -1,27 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RecipeAppWPF;
+using RecipeAppWPF;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace RecipeAppWPF
 {
-    /// <summary>
-    /// Interaction logic for ViewRecipesWindow.xaml
-    /// </summary>
     public partial class ViewRecipesWindow : Window
     {
         public ViewRecipesWindow()
         {
             InitializeComponent();
+            LoadRecipes();
+        }
+
+        private void LoadRecipes()
+        {
+            // Sort recipes alphabetically by name
+            var sortedRecipes = RecipeRepository.Recipes.OrderBy(recipe => recipe.RecipeName).ToList();
+
+            // Bind the sorted recipes to the ListBox
+            RecipesListBox.ItemsSource = sortedRecipes;
+        }
+
+        private void ApplyFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Get filter values
+            string ingredient = IngredientTextBox.Text.ToLower();
+            string foodGroup = FoodGroupTextBox.Text.ToLower();
+            bool isCaloriesValid = double.TryParse(MaxCaloriesTextBox.Text, out double maxCalories);
+
+            // Apply filters to the recipe list
+            var filteredRecipes = RecipeRepository.Recipes.Where(recipe =>
+                (string.IsNullOrEmpty(ingredient) || recipe.Ingredients.Any(ing => ing.Name.ToLower().Contains(ingredient))) &&
+                (string.IsNullOrEmpty(foodGroup) || recipe.Ingredients.Any(ing => ing.FoodGroup.ToLower().Contains(foodGroup))) &&
+                (!isCaloriesValid || recipe.TotalCalories <= maxCalories)
+            ).OrderBy(recipe => recipe.RecipeName).ToList();
+
+            // Bind the filtered recipes to the ListBox
+            RecipesListBox.ItemsSource = filteredRecipes;
+        }
+
+        private void RecipesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Recipe selectedRecipe = (Recipe)RecipesListBox.SelectedItem;
+            if (selectedRecipe != null)
+            {
+                RecipeDetailWindow recipeDetailWindow = new RecipeDetailWindow(selectedRecipe);
+                recipeDetailWindow.Show();
+                this.Close();
+                // Refresh the recipes list after a recipe might be deleted
+                ApplyFilterButton_Click(null, null); // Reapply filters
+            }
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
         }
     }
 }
