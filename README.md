@@ -1,40 +1,90 @@
-# RecipeApp by Gladwin Bapela ST10341057
-Github Repository Link: https://github.com/ST10341057/RecipeAppPOE/commits/v.Part2
+# Recipe GUI App
 
-## Description
-RecipeApp is a command-line application written in C# that allows users to manage recipe details, including ingredients and steps. 
-Users can enter recipe details, display the recipe, scale the recipe by a factor, reset ingredient quantities, and clear all data.
+This is a WPF (Windows Presentation Foundation) application for managing recipes. Users can add, view, scale, reset, and delete recipes. Additionally, users can filter recipes based on ingredients, food groups, and calorie limits. The application also provides a notification if the total calories of a recipe exceed 300 while adding ingredients.
 
 ## Features
-Enter Recipe Details: Users can enter details for a recipe, including its name, ingredients, and steps.
-Display List of Recipes: Users can view a list of all entered recipes in alphabetical order by name.
-Scale Recipe: Users can scale the quantities of ingredients in a recipe by a given factor (e.g., double, triple).
-Reset Quantities: Users can reset the quantities of ingredients in a recipe to their original values.
-Clear All Data: Users can clear all data of a recipe, including ingredients and steps.
-Notify User of Excessive Calories: The app notifies the user when the total calories of a recipe exceed 300.
-Unit Testing: The app includes unit tests to verify the correctness of the total calorie calculation functionality.
-Error Handling: The app includes error handling to handle invalid user inputs and other exceptions gracefully.
-Event Handling: The app uses events and delegates to trigger notifications when the total calories exceed 300.
-Organized Architecture: The code is organized into separate classes for recipes and ingredients, promoting code readability and maintainability.
-Interactive Console Interface: The app interacts with users through a console-based interface, allowing them to input recipe details and select options.
+- Add new recipes with ingredients and steps.
+- View all recipes.
+- Scale ingredients and calories.
+- Reset ingredients to original values.
+- Delete recipes.
+- Filter recipes based on ingredients, food groups, and calorie limits.
+- Notification for recipes exceeding 300 calories.
 
-## Usage
-1. open the project using Visual Studio 2019 or later.
-2. RecipeAppPOE.sln is the solution file that can be opened in visiua studio
-3. . . Run the program using `Program.cs`. which can be found in the ``RecipeAppPOE\RecipeAppPOE\`` folder along with the rest of the source code.  
-4. PATH: ``RecipeAppPOE\RecipeAppPOE\Program.cs``
-5. Choose an option from the menu:
-    - Enter Recipe Details
-    - Display Recipe
-    - Scale Recipe
-    - Reset Quantities
-    - Clear All Data
-    - Exit
+## Prerequisites
+- Visual Studio 2022 or later
+- .NET 8.0 SDK or later
 
-6. Follow the on-screen prompts to perform the desired action.
+## Setup Instructions
+
+### Cloning the Repository
+
+[GitHub Repository] https://github.com/ST10341057/RecipeAppPOE/tree/RecipeAppGUI
+
+1. Open your terminal or command prompt.
+2. Clone the repository using the following command:
+   ```bash
+   git clone https://github.com/ST10341057/RecipeAppPOE/tree/RecipeAppGUI
+   ```
+3. Navigate to the project directory:
+   ```bash
+   cd RecipeAppWPF
+   ```
+
+### Opening the Project
+1. Open Visual Studio.
+2. Click on `Open a project or solution`.
+3. Navigate to the `RecipeAppWPF` directory and select the `RecipeAppPOE.sln` file.
+
+### Building the Project
+1. Once the project is opened in Visual Studio, build the solution by:
+   - Clicking on `Build` in the menu bar.
+   - Selecting `Build Solution` (or press `Ctrl+Shift+B`).
+
+### Running the Project
+1. After successfully building the solution, run the application by:
+   - Clicking on `Debug` in the menu bar.
+   - Selecting `Start Debugging` (or press `F5`).
 
 
-Changes implemented based on lecturer feedback:
+### Using the Application
+1. **Add Recipe:**
+   - Click on `Add New Recipe`.
+   - Fill in the recipe details, add ingredients and steps, then click `Save Recipe`.
+2. **View Recipes:**
+   - Click on `View All Recipes`.
+   - Select a recipe to view its details.
+   - Use the buttons to scale, reset, or delete the recipe.
+3. **Filter Recipes:**
+   - Use the filter options to filter recipes by ingredient, food group, or maximum calories.
 
-  1. Didn't compress the project using .rar
-  2. Referenced RecipeAppPOE.sln as the solution file that can be opened in Visual Studio to ensure that the project can be opened and run without any issues
+### Notifying for High-Calorie Recipes
+While adding ingredients in the `AddRecipeWindow`, if the total calories exceed 300, a notification will be shown to the user once.
+
+## Project Structure
+- `MainWindow.xaml` and `MainWindow.xaml.cs`: Main window with options to add, view, or quit the application.
+- `AddRecipeWindow.xaml` and `AddRecipeWindow.xaml.cs`: Window for adding new recipes.
+- `ViewRecipesWindow.xaml` and `ViewRecipesWindow.xaml.cs`: Window for viewing and managing recipes.
+- `RecipeDetailWindow.xaml` and `RecipeDetailWindow.xaml.cs`: Window for viewing and editing the details of a selected recipe.
+- `Recipe.cs`: Model class for recipes.
+- `RecipeRepository.cs`: Static class for storing and managing recipes.
+
+## Troubleshooting
+- **Debug Executable Not Found Error:**
+  - Ensure the build was successful.
+  - Check if the executable is being blocked by an antivirus or other security software.
+  - Try cleaning the solution and rebuilding it:
+    - `Build > Clean Solution`
+    - `Build > Rebuild Solution`
+
+- **Recipes Not Displaying Properly:**
+  - Make sure the data bindings in the XAML files are correctly set.
+  - Check the `LoadRecipes` method to ensure it correctly populates the `ListBox`.
+
+## Feedback from lecture (part 2 fixes)
+
+Summary of Changes
+1. Event Handling: Added a new event CaloriesWarning to give a warning when calories are approaching 300.
+2. Modularization: Broke down larger methods into smaller, more manageable ones.
+3. Error Handling: Improved error handling for numeric inputs.
+4. User Interaction: Enhanced user interaction prompts for adding ingredients and steps.
