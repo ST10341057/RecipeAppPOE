@@ -69,7 +69,7 @@ namespace RecipeAppWPF
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewRecipesWindow viewRecipesWindow = new ViewRecipesWindow();
+          ViewRecipesWindow viewRecipesWindow = new ViewRecipesWindow();
             viewRecipesWindow.Show();
             this.Close();
         }

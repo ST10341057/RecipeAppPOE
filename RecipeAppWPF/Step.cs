@@ -6,7 +6,7 @@
         private string description;
 
         // Method that runs upon instance creation
-        public Step(int number)
+        public Step (int number)
         {
             stepNumber = number;
         }

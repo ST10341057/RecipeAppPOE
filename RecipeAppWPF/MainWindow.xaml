@@ -1,21 +1,25 @@
 ﻿<Window x:Class="RecipeAppWPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Recipe App" Height="350" Width="525">
+        Title="Recipe App - ST10341057" Height="350" Width="525">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="166*"/>
+            <ColumnDefinition Width="9*"/>
+        </Grid.ColumnDefinitions>
         <!-- StackPanel to center the content -->
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="199,0,0,0">
             <!-- Title for the application -->
             <TextBlock Text="Recipe APP" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
             <!-- Button to open the Add Recipe window -->
-            <Button x:Name="AddRecipeButton" Content="Add Recipe" Width="120" Margin="0,10" Click="AddRecipeButton_Click"/>
+            <Button x:Name="AddRecipeButton" Content="Add Recipe" Width="120" Margin="0,10" Click="AddRecipeButton_Click" Background="#FF99B4D1"/>
 
             <!-- Button to open the View Recipes window -->
-            <Button x:Name="ViewRecipesButton" Content="View Recipes" Width="120" Margin="0,10" Click="ViewRecipesButton_Click"/>
+            <Button x:Name="ViewRecipesButton" Content="View Recipes" Width="120" Margin="0,10" Click="ViewRecipesButton_Click" Background="#FF99B4D1"/>
 
             <!-- Button to quit the application -->
-            <Button x:Name="QuitButton" Content="Quit" Width="120" Margin="0,10" Click="QuitButton_Click"/>
+            <Button x:Name="QuitButton" Content="Quit" Width="120" Margin="0,10" Click="QuitButton_Click" Background="Red" Foreground="#FFFFF7F7"/>
         </StackPanel>
     </Grid>
 </Window>
