@@ -13,7 +13,7 @@
             <TextBlock Text="Recipe APP" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
             <!-- Button to open the Add Recipe window -->
-            <Button x:Name="AddRecipeButton" Content="Add Recipe" Width="120" Margin="0,10" Click="AddRecipeButton_Click" Background="#FF99B4D1"/>
+            <Button x:Name="AddRecipeButton" Content="Add Recipe" Width="120" Margin="0,10" Click="AddRecipeButton_Click" Background="#FF99B4D1" Foreground="Black"/>
 
             <!-- Button to open the View Recipes window -->
             <Button x:Name="ViewRecipesButton" Content="View Recipes" Width="120" Margin="0,10" Click="ViewRecipesButton_Click" Background="#FF99B4D1"/>
