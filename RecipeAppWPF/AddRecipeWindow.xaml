@@ -1,32 +1,67 @@
-﻿<!-- File: AddRecipeWindow.xaml -->
-<Window x:Class="RecipeAppWPF.AddRecipeWindow"
+﻿<Window x:Class="RecipeAppWPF.AddRecipeWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Add Recipe" Height="450" Width="800">
-    <Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Grid>
-                <TextBox Name="RecipeName" TextChanged="TextBox_TextChanged"/>
-                <TextBlock Text="Recipe Name" Foreground="Gray" IsHitTestVisible="False" 
-                           VerticalAlignment="Center" Margin="5,0" 
-                           Visibility="{Binding Text.IsEmpty, ElementName=RecipeName, 
-                           Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            </Grid>
-            <Grid>
-                <TextBox Name="Ingredients" TextChanged="TextBox_TextChanged"/>
-                <TextBlock Text="Ingredients" Foreground="Gray" IsHitTestVisible="False" 
-                           VerticalAlignment="Center" Margin="5,0" 
-                           Visibility="{Binding Text.IsEmpty, ElementName=Ingredients, 
-                           Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            </Grid>
-            <Grid>
-                <TextBox Name="Instructions" TextChanged="TextBox_TextChanged"/>
-                <TextBlock Text="Instructions" Foreground="Gray" IsHitTestVisible="False" 
-                           VerticalAlignment="Center" Margin="5,0" 
-                           Visibility="{Binding Text.IsEmpty, ElementName=Instructions, 
-                           Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            </Grid>
-            <Button Content="Save" Click="SaveRecipe_Click"/>
+        Title="Add Recipe" Height="650" Width="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="10">
+            <!-- Recipe Name Section -->
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Label Content="Recipe Name:" Width="100"/>
+                <TextBox Name="RecipeNameTextBox" Width="200"/>
+            </StackPanel>
+
+            <!-- Ingredients Section -->
+            <Label Content="Ingredients:" FontWeight="Bold" Margin="5"/>
+            <StackPanel Name="IngredientsStackPanel" Margin="5" Background="LightGray" MinHeight="50" />
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Ingredient Name:" Width="120"/>
+                    <TextBox x:Name="IngredientNameTextBox" Width="200"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Quantity:" Width="120"/>
+                    <TextBox x:Name="QuantityTextBox" Width="200"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Unit (e.g grams):" Width="120"/>
+                    <TextBox x:Name="UnitTextBox" Width="200"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Calories:" Width="120"/>
+                    <TextBox x:Name="CaloriesTextBox" Width="200"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Food Group:" Width="120"/>
+                    <TextBox x:Name="FoodGroupTextBox" Width="200"/>
+                </StackPanel>
+                <Button x:Name="AddIngredientButton" Content="Add Ingredient" Width="100" Click="AddIngredientButton_Click"/>
+            </StackPanel>
+
+            <!-- Add Ingredient Form -->
+
+            <!-- Steps Section -->
+            <Label Content="Steps:" FontWeight="Bold" Margin="5"/>
+            <StackPanel Name="StepsStackPanel" Margin="5" Background="LightGray" MinHeight="50" />
+
+            <!-- Add Step Form -->
+            <StackPanel Orientation="Vertical" Margin="5">
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Step Description:" Width="120"/>
+                    <TextBox Name="StepDescriptionTextBox" Width="200"/>
+                </StackPanel>
+                <Button Name="AddStepButton" Content="Add Step" Width="100" Margin="5" Click="AddStepButton_Click"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Save Recipe Button -->
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left" Margin="10,0,0,0">
+            <Button Name="BackButton" Content="Back" Width="100" Height="30" Margin="5" Click="BackButton_Click" RenderTransformOrigin="-2.96,0.541"/>
+            <Button Name="SaveRecipeButton" Content="Save Recipe" Width="100" Height="30" Margin="5" Click="SaveRecipeButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>
