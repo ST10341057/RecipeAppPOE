@@ -1,80 +1,94 @@
 ﻿using RecipeAppWPF;
+using System.Windows.Controls;
 using System.Windows;
 
-namespace RecipeAppWPF
+public partial class AddRecipeWindow : Window
 {
-    public partial class AddRecipeWindow : Window
+    private Recipe currentRecipe;
+    private bool notificationShown;
+
+    public AddRecipeWindow()
     {
-        public Recipe NewRecipe { get; private set; }
+        InitializeComponent();
+        currentRecipe = new Recipe();
+        currentRecipe.TotalCaloriesExceeded += OnTotalCaloriesExceeded;
+        notificationShown = false;
+    }
 
-        public AddRecipeWindow()
+    private void AddIngredientButton_Click(object sender, RoutedEventArgs e)
+    {
+        // Collect ingredient details
+        string name = IngredientNameTextBox.Text;
+        if (int.TryParse(QuantityTextBox.Text, out int quantity) &&
+            double.TryParse(CaloriesTextBox.Text, out double calories))
         {
-            InitializeComponent();
-            NewRecipe = new Recipe(); // Initialize a new recipe object
+            string unit = UnitTextBox.Text;
+            string foodGroup = FoodGroupTextBox.Text;
+
+            // Add ingredient to the recipe
+            currentRecipe.AddIngredient(name, quantity, unit, calories, foodGroup, currentRecipe.Ingredients.Count);
+
+            // Display the ingredient in the panel
+            IngredientsStackPanel.Children.Add(new TextBlock { Text = name });
+
+            // Clear form
+            IngredientNameTextBox.Clear();
+            QuantityTextBox.Clear();
+            UnitTextBox.Clear();
+            CaloriesTextBox.Clear();
+            FoodGroupTextBox.Clear();
         }
-
-        // Event handler for adding an ingredient
-        private void AddIngredientButton_Click(object sender, RoutedEventArgs e)
+        else
         {
-            try
-            {
-                // Create a new ingredient from the input fields
-                Ingredient ingredient = new Ingredient
-                {
-                    Name = IngredientNameTextBox.Text,
-                    Quantity = double.Parse(IngredientQuantityTextBox.Text),
-                    Unit = IngredientUnitTextBox.Text,
-                    Calories = double.Parse(IngredientCaloriesTextBox.Text),
-                    FoodGroup = IngredientFoodGroupTextBox.Text
-                };
-
-                // Add the ingredient to the new recipe
-                NewRecipe.AddIngredient(ingredient);
-                // Clear input fields after adding the ingredient
-                IngredientNameTextBox.Clear();
-                IngredientQuantityTextBox.Clear();
-                IngredientUnitTextBox.Clear();
-                IngredientCaloriesTextBox.Clear();
-                IngredientFoodGroupTextBox.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error adding ingredient: {ex.Message}");
-            }
-        }
-
-        // Event handler for adding a step
-        private void AddStepButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                // Add the step to the new recipe
-                NewRecipe.Steps.Add(StepTextBox.Text);
-                // Clear the input field after adding the step
-                StepTextBox.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error adding step: {ex.Message}");
-            }
-        }
-
-        // Event handler for saving the recipe
-        private void SaveRecipeButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                // Set the recipe name
-                NewRecipe.Name = RecipeNameTextBox.Text;
-                // Add the new recipe to the main list
-                MainWindow.Recipes.Add(NewRecipe);
-                // Close the AddRecipeWindow
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error saving recipe: {ex.Message}");
-            }
+            MessageBox.Show("Please enter valid numbers for Quantity and Calories.", "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
+
+    private void AddStepButton_Click(object sender, RoutedEventArgs e)
+    {
+        // Collect step details
+        string description = StepDescriptionTextBox.Text;
+        int stepNumber = currentRecipe.Steps.Count + 1;
+
+        // Add step to the recipe
+        currentRecipe.AddStep(stepNumber, description, currentRecipe.Steps.Count);
+
+        // Display the step in the stack panel
+        StepsStackPanel.Children.Add(new TextBlock { Text = description });
+
+        // Clear the form
+        StepDescriptionTextBox.Clear();
+    }
+
+    private void SaveRecipeButton_Click(object sender, RoutedEventArgs e)
+    {
+        // Collect recipe name
+        string recipeName = RecipeNameTextBox.Text;
+        currentRecipe.RecipeName = recipeName;
+
+        // Save the recipe to the repository
+        RecipeRepository.Recipes.Add(currentRecipe);
+
+        // Close the window
+        MainWindow mainWindow = new MainWindow();
+        mainWindow.Show();
+        this.Close();
+    }
+
+    private void OnTotalCaloriesExceeded(double totalCalories)
+    {
+        if (!notificationShown)
+        {
+            MessageBox.Show($"This recipe has exceeded 300 calories. Total calories: {totalCalories}", "Calorie Alert", MessageBoxButton.OK, MessageBoxImage.Warning);
+            notificationShown = true;
+        }
+    }
+
+    private void BackButton_Click(object sender, RoutedEventArgs e)
+    {
+        MainWindow mainWindow = new MainWindow();
+        mainWindow.Show();
+        this.Close();
+    }
+}
 }
