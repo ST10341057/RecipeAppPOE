@@ -16,7 +16,7 @@ namespace RecipeAppWPF
 
         private void LoadRecipes()
         {
-            // Sort recipes alphabetically by name
+            
             var sortedRecipes = RecipeRepository.Recipes.OrderBy(recipe => recipe.RecipeName).ToList();
 
             // Bind the sorted recipes to the ListBox
@@ -40,7 +40,8 @@ namespace RecipeAppWPF
             // Bind the filtered recipes to the ListBox
             RecipesListBox.ItemsSource = filteredRecipes;
         }
-
+        
+        // Event handler for the SelectionChanged event of the ListBox
         private void RecipesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Recipe selectedRecipe = (Recipe)RecipesListBox.SelectedItem;
@@ -50,10 +51,10 @@ namespace RecipeAppWPF
                 recipeDetailWindow.Show();
                 this.Close();
                 // Refresh the recipes list after a recipe might be deleted
-                ApplyFilterButton_Click(null, null); // Reapply filters
+                ApplyFilterButton_Click(null, null); 
             }
         }
-
+        // Event handler for the Back button click
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
