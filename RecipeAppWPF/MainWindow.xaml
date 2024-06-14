@@ -1,13 +1,21 @@
-﻿<!-- File: MainWindow.xaml -->
-<Window x:Class="RecipeAppWPF.MainWindow"
+﻿<Window x:Class="RecipeAppWPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Recipe App" Height="450" Width="800">
+        Title="Recipe App" Height="350" Width="525">
     <Grid>
+        <!-- StackPanel to center the content -->
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Content="Add Recipe" Click="AddRecipe_Click"/>
-            <Button Content="View Recipes" Click="ViewRecipes_Click"/>
-            <Button Content="Menu with Pie Chart" Click="MenuPieChart_Click"/>
+            <!-- Title for the application -->
+            <TextBlock Text="Recipe APP" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+            <!-- Button to open the Add Recipe window -->
+            <Button x:Name="AddRecipeButton" Content="Add Recipe" Width="120" Margin="0,10" Click="AddRecipeButton_Click"/>
+
+            <!-- Button to open the View Recipes window -->
+            <Button x:Name="ViewRecipesButton" Content="View Recipes" Width="120" Margin="0,10" Click="ViewRecipesButton_Click"/>
+
+            <!-- Button to quit the application -->
+            <Button x:Name="QuitButton" Content="Quit" Width="120" Margin="0,10" Click="QuitButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>
